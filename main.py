@@ -54,14 +54,15 @@ def process_mentions(mentions):
     if (not mentions): return
     for m in reversed(mentions):
         number, type_name = get_fields(m.full_text)
-        text_reply = "🤖 [".decode("utf-8")+type_name+":"+number+"]:\n" + "@" + m.user.screen_name + ". "
+        text_reply = "🤖 ["+type_name+":"+number+"]:\n" + "@" + m.user.screen_name + ". "
         API_ans = numbersAPIquery(number, type_name)
         text_reply += API_ans if API_ans!=ERROR else NOT_FOUND_MSG
         print(text_reply)
-        api.update_status(text_reply.encode("utf-8"), m.id)
+        api.update_status(text_reply, m.id)
     save_last_tweet_id(mentions[0].id)
 
 if __name__ == "__main__":
+
     load_keys()
     api = connect_api()
     print("\tphibo is alive!")
